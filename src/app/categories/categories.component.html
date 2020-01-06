@@ -1,0 +1,49 @@
+<div class="card border-primary mt-3">
+    <div class="card-header"><h5 class="card-title">{{cardTitle}}</h5></div>
+
+    <div class="card-body text-primary">
+        <div class="my-2 text-left">
+            <button class="btn btn-primary btn-rounded" type="button" [routerLink]="['/categories/form']" *ngIf="isSuperCategories">New super category</button>
+            <button class="btn btn-success btn-rounded" type="button" (click)="goHome()" *ngIf="!isSuperCategories">Supercategories</button><br>
+            <button class="btn btn-primary btn-rounded mt-1 mr-1" type="button" [routerLink]="['/categories/subcategory', superCategory.idCategory]" *ngIf="!isSuperCategories && products?.length == 0">New subcategory</button>
+            <button class="btn btn-primary btn-rounded mt-1" type="button" [routerLink]="['/product/form']" *ngIf="!isSuperCategories && currentCategories?.length == 0">New product</button>
+        </div>
+
+        <table class="table table-bordered table-striped" *ngIf="currentCategories?.length > 0">
+            <thead>
+                <tr class="text-center">
+                    <th>Picture</th>
+                    <th>Name</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let category of currentCategories">
+                    <td style="width: 100px;">
+                        <img *ngIf="category?.picture" src="http://localhost:8080/api/image/{{category.picture}}" class="img-thumbnail rounded" 
+                            alt="{{category.picture}}">
+                        <img *ngIf="!category?.picture" src="http://localhost:8080/images/no-picture.png" class="img-thumbnail rounded" 
+                            alt="Without picture">
+                    </td>
+
+                    <td style="vertical-align: middle;">
+                        <h5>{{category.name}}</h5>
+                    </td>
+
+                    <td class="text-center" style="width: 180px;">
+                        <button type="button" name="btnSeeCategory" class="btn btn-success" (click)="seeCategory(category)">
+                            <i class="fas fa-sign-in-alt"></i>
+                        </button>
+                        <button type="button" name="btnEdit" [routerLink]="['/categories/edit/', category.idCategory]" class="btn btn-primary m-1">
+                            <i class="far fa-edit"></i>
+                        </button>
+                        <button type="button" name="btnDelete" class="btn btn-danger" (click)="deleteCategory(category)">
+                            <i class="far fa-trash-alt"></i>
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <paginator-nav *ngIf="paginator" [paginator] = "paginator"></paginator-nav>
+    </div>
+</div>

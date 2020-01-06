@@ -1,0 +1,28 @@
+<!-- Header -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <h2 class="navbar-brand">{{title}}</h2>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav mr-auto">
+          <li class="nav-item" routerLinkActive="active">
+              <a class="nav-link" routerLink="/categories">Super categories</a>
+          </li>
+      </ul>
+  </div>
+</nav>
+
+<!-- Content -->
+<div class="container">
+  <router-outlet></router-outlet>
+</div>
+
+<!-- Footer -->
+<footer class="footer bg-dark rounded-top text-center">
+  <div class="container py-1">
+      <p class="text-white my-1">&copy; PerfilTic</p>
+  </div>
+</footer>

@@ -1,0 +1,31 @@
+<div class="card bg-dark text-white mt-3 w-75">
+    <div class="card-header">{{ title }}</div>
+
+    <div class="card-body">
+
+        <form #categoryForm="ngForm">
+
+            <div class="form-group row">
+                <label for="name" class="col-form-label col-sm-2">Name</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-comtrol w-100" name="name" [(ngModel)]="category.name" #name="ngModel" required>
+                    <div class="alert alert-danger" *ngIf="name.invalid && name.touched">
+                        <div *ngIf="name.errors.required">
+                            <p>The name is required</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label for="categoryImage" class="col-form-label col-sm-2">Picture</label>
+                <div class="col-sm-9 input-group custom-file" style="margin-left: 15px;">
+                    <input (change)="selectImage($event)" type="file" class="custom-file-input" id="categoryImage">
+                    <label class="custom-file-label" for="categoryImage">{{ pictureName }}</label>
+                </div>
+            </div>
+            
+            <button (click)="save()" class="btn btn-primary" type="button" [disabled]="categoryForm.invalid">Save</button>
+        </form>
+    </div>
+</div>

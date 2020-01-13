@@ -37,10 +37,8 @@ export class CategoryService {
 
   saveCategory(file: File, category: Category): Observable<Category> {
     let formData = new FormData();
+    formData.append('category', JSON.stringify(category));
     formData.append('image', file);
-    formData.append('idCategory', category.idCategory ? `${category.idCategory}` : '-1');
-    formData.append('name', category.name);
-    formData.append('superCategory', category.superCategory ? `${category.superCategory}` : '-1');
 
     return this.httpClient.post<Category>(environment.urlSaveCategory, formData).pipe(
       catchError(err => {
@@ -61,15 +59,6 @@ export class CategoryService {
     return this.httpClient.get<Category[]>(environment.urlSubcategories +'/'+ idCategory +'/'+ page).pipe(
       map((response: any) => {
         response.content as Category[];
-        return response;
-      })
-    );
-  }
-
-  getProducts(idCategory: number, page: number): Observable<Product[]> {
-    return this.httpClient.get<Product[]>(environment.urlProducts +'/'+ idCategory +'/'+ page).pipe(
-      map((response: any) => {
-        response.content as Product[];
         return response;
       })
     );

@@ -12,8 +12,6 @@ export class CategoryFormComponent implements OnInit {
 
   category: Category = new Category();
   selectedPicture: File = null;
-  
-  title: string = "Categories form";
   pictureName: string = 'Select one picture';
 
   constructor(
@@ -39,7 +37,6 @@ export class CategoryFormComponent implements OnInit {
 
   selectImage(event) {
     this.selectedPicture = event.target.files[0];
-    this.pictureName = this.selectedPicture.name.toString();
 
     if(this.selectedPicture.type.indexOf('image') < 0) {
       this.selectedPicture = null;
@@ -51,26 +48,20 @@ export class CategoryFormComponent implements OnInit {
         text: 'If you save now, the last image will be remain.',
         showConfirmButton: true
       });
+    } else {
+        this.pictureName = this.selectedPicture.name.toString();
     }
   }
 
   public save(): void {
-    if(this.selectedPicture)
-      this.categoryService.saveCategory(this.selectedPicture, this.category).subscribe(category => {
-        this.router.navigate(['/categories']);
-        Swal.fire({
-          position: 'center',
-          icon: 'success',
-          title: `The category ${category.name} has been saved succesfully`,
-          showConfirmButton: true
-        });
-      });
-    else
+    this.categoryService.saveCategory(this.selectedPicture, this.category).subscribe(category => {
+      this.router.navigate(['/categories']);
       Swal.fire({
         position: 'center',
-        icon: 'warning',
-        title: 'You must to select a image',
+        icon: 'success',
+        title: `The category ${category.name} has been saved succesfully`,
         showConfirmButton: true
       });
+    });
   }
 }

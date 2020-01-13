@@ -8,5 +8,5 @@ export const environment = {
   urlGetProduct: 'http://localhost:8080/api/product',
   urlProducts: 'http://localhost:8080/api/products',
   urlDeleteProduct: 'http://localhost:8080/api/product/delete',
-  urlSveProduct: 'http://localhost:8080/api/products/save'
+  urlSaveProduct: 'http://localhost:8080/api/products/save'
 };

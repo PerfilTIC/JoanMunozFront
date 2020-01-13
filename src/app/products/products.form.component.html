@@ -1,0 +1,84 @@
+<div class="card bg-dark text-white mt-3 w-75">
+    <div class="card-header">Products form</div>
+
+    <div class="card-body">
+        <form #productForm="ngForm">
+
+            <div class="form-group row">
+                <label for="name" class="col-form-label col-sm-2">Name</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-comtrol w-100" name="name" [(ngModel)]="product.name" #name="ngModel" required>
+                    <div class="alert alert-danger" *ngIf="name.invalid && name.touched">
+                        <div *ngIf="name.errors.required">
+                            <p>The name is required</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label for="description" class="col-form-label col-sm-2">Description</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-comtrol w-100" name="description" [(ngModel)]="product.description" #description="ngModel" required>
+                    <div class="alert alert-danger" *ngIf="description.invalid && description.touched">
+                        <div *ngIf="description.errors.required">
+                            <p>The description is required</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label for="weight" class="col-form-label col-sm-2">Weight</label>
+                <div class="col-sm-10">
+                    <input type="number" class="form-comtrol w-100" name="weight" [(ngModel)]="product.weight" #weight="ngModel" required>
+                    <div class="alert alert-danger" *ngIf="weight.invalid && weight.touched">
+                        <div *ngIf="weight.errors.required">
+                            <p>The weight is required</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label for="price" class="col-form-label col-sm-2">Price</label>
+                <div class="col-sm-10">
+                    <input type="number" class="form-comtrol w-100" name="price" [(ngModel)]="product.price" #price="ngModel" required>
+                    <div class="alert alert-danger" *ngIf="price.invalid && price.touched">
+                        <div *ngIf="price.errors.required">
+                            <p>The price is required</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div *ngIf="creatingProduct">
+                <div class="form-group row">
+                    <label for="picture1" class="col-form-label col-sm-2">Picture 1</label>
+                    <div class="col-sm-9 input-group custom-file" style="margin-left: 15px;">
+                        <input (change)="selectImage($event, 1)" type="file" class="custom-file-input" id="picture1">
+                        <label class="custom-file-label" for="picture1">{{ product.picture1 ? product.picture1 : 'Select one picture' }}</label>
+                    </div>
+                </div>
+
+                <div class="form-group row" *ngIf="picture1">
+                    <label for="picture2" class="col-form-label col-sm-2">Picture 2</label>
+                    <div class="col-sm-9 input-group custom-file" style="margin-left: 15px;">
+                        <input (change)="selectImage($event, 2)" type="file" class="custom-file-input" id="picture2">
+                        <label class="custom-file-label" for="picture2">{{ product.picture2 ? product.picture2 : 'Select one picture' }}</label>
+                    </div>
+                </div>
+
+                <div class="form-group row" *ngIf="picture2">
+                    <label for="picture3" class="col-form-label col-sm-2">Picture 3</label>
+                    <div class="col-sm-9 input-group custom-file" style="margin-left: 15px;">
+                        <input (change)="selectImage($event, 3)" type="file" class="custom-file-input" id="picture3">
+                        <label class="custom-file-label" for="picture3">{{ product.picture3 ? product.picture3 : 'Select one picture' }}</label>
+                    </div>
+                </div>
+            </div>
+            
+            <button (click)="save()" class="btn btn-primary" type="button" [disabled]="productForm.invalid">Save</button>
+        </form>
+    </div>
+</div>

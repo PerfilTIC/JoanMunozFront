@@ -1,11 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { CategoryService } from './category.service';
+import { ProductService } from '../products/product.service';
 import { Category } from './category';
 import Swal from 'sweetalert2';
-import { Product } from '../products/product';
-import { ProductService } from '../products/product.service';
-import { ModalService } from '../products/detail/modal.service';
 
 @Component({
   selector: 'app-categories',
@@ -14,23 +12,21 @@ import { ModalService } from '../products/detail/modal.service';
 export class CategoriesComponent implements OnInit {
 
   currentCategories: Category[];
-  products: Product[] = [];
   isSuperCategories: boolean;
   superCategory: Category;
-  selectedProduct: Product;
 
-  paginator: any = null;
+  paginator: any;
   cardTitle: string = 'Super categories';
-  currency: string = 'COP';
 
   constructor(
     private categoryService: CategoryService,
     private productService: ProductService,
     private activatedRoute: ActivatedRoute,
-    private modalService: ModalService
+    private router: Router
   ) { }
 
-  ngOnInit() {
+  ngOnInit() {     
+    this.paginator = undefined;
     this.isSuperCategories = true;
     this.activatedRoute.paramMap.subscribe(params => {
       let page: string = params.get('page');
@@ -68,8 +64,8 @@ export class CategoriesComponent implements OnInit {
     })    
   }
 
-  seeCategory(category: Category) {
-    this.paginator = null;
+  seeCategory(category: Category) {     
+    this.paginator = undefined;
     this.superCategory = category;
     this.activatedRoute.paramMap.subscribe(params => {
       let page: string = params.get('page');
@@ -82,43 +78,16 @@ export class CategoriesComponent implements OnInit {
 
         if(this.paginator.totalElements == 0) {
           this.productService.getProducts(category.idCategory, page ? +page : 0).subscribe(result => {
-            this.paginator = result;
-            this.products = this.paginator.content;
+            if(result.totalElements > 0)
+              this.router.navigate(['/products/page', category.idCategory, 0]);
           });
         }
       });
     });
   }
 
-  deleteProduct(product: Product) {
-    Swal.fire({
-      title: '¿Are you sure?',
-      text: `The product ${product.name} will be remove.`,
-      icon: 'warning',
-      showCancelButton: true,
-      cancelButtonText: 'Cancel',
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
-      confirmButtonText: 'Delete',
-      reverseButtons: true
-    }).then((result) => {
-      if (result.value) {
-        this.productService.deleteProduct(product.idProduct).subscribe(result => {  
-          this.products = this.products.filter(pro => pro !== product);
-          Swal.fire({
-            position: 'center',
-            icon: 'success',
-            title: result.message,
-            showConfirmButton: true
-          });
-        });
-      }
-    })
-  }
-
   goHome() {
     this.paginator = null;
-    this.products = [];
     this.isSuperCategories = true;
     this.cardTitle = 'Super categories';
     this.categoryService.getSuperCategories(0).subscribe(result => {        
@@ -126,10 +95,4 @@ export class CategoriesComponent implements OnInit {
       this.currentCategories = this.paginator.content;
     });
   }
-
-  openModal(product: Product) {
-    this.selectedProduct = product
-    this.modalService.openModal();
-  }
-
 }

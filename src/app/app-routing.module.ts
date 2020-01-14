@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { CategoriesComponent } from './categories/categories.component';
+import { ProductsComponent } from './products/products.component';
 import { CategoryFormComponent } from './categories/category.form.component';
 import { ProductsFormComponent } from './products/products.form.component';
 
@@ -13,7 +14,8 @@ const routes: Routes = [
   {path: 'categories/edit/:idCategory', component: CategoryFormComponent},
   {path: 'categories/subcategory/:superCategory', component: CategoryFormComponent},
   {path: 'products/new/:idCategory', component: ProductsFormComponent},
-  {path: 'products/edit/:idProduct', component: ProductsFormComponent}
+  {path: 'products/edit/:idProduct', component: ProductsFormComponent},
+  {path: 'products/page/:idCategory/:page', component: ProductsComponent}
 ];
 
 @NgModule({

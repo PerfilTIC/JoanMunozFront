@@ -16,9 +16,20 @@
                             <li class="list-group-item">{{product.name}}</li>
                             <li class="list-group-item">{{product.description}}</li>
                             <li class="list-group-item">{{product.weight}} lbs</li>
-                            <li class="list-group-item">$ {{product.price}}</li>
+                            <li class="list-group-item">{{product.price | currency:'$ '}}</li>
                         </ul>
+                        <div class="form-group m-1">
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="currency" id="usd" (click)="transformCurrency('USD')" checked>
+                                <label class="form-check-label" for="usd">USD</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="currency" id="cop" (click)="transformCurrency('COP')">
+                                <label class="form-check-label" for="cop">COP</label>
+                            </div>
+                        </div>
                     </div>
+
                     <div class="card bg-transparent" *ngIf="product?.picture1">
                         <img src="http://localhost:8080/api/image/{{product.picture1}}" alt="{{product.picture1}}" class="img-thumbnail rounded">
                     </div>
@@ -31,7 +42,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" (click)="closeModal()" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" (click)="closeModal()" class="btn btn-info" data-dismiss="modal">Close</button>
             </div>
             </div>
         </div>

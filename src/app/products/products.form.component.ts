@@ -93,16 +93,28 @@ export class ProductsFormComponent implements OnInit {
   }
 
   public save(): void {
-    this.getPictures();
-    this.productService.saveProduct(this.product, this.pictures).subscribe(product => {
-      this.router.navigate(['/categories']);
-      Swal.fire({
-        position: 'center',
-        icon: 'success',
-        title: `The product ${product.name} has been saved succesfully`,
-        showConfirmButton: true
+    if(this.creatingProduct) {
+      this.getPictures();
+      this.productService.saveProduct(this.product, this.pictures).subscribe(product => {
+        this.router.navigate(['/products/page', this.product.idCategory, 0]);
+        Swal.fire({
+          position: 'center',
+          icon: 'success',
+          title: `The product ${product.name} has been saved succesfully`,
+          showConfirmButton: true
+        });
       });
-    });
+    } else {
+      this.productService.updateProduct(this.product).subscribe(product => {
+        this.router.navigate(['/products/page', this.product.idCategory, 0]);
+        Swal.fire({
+          position: 'center',
+          icon: 'success',
+          title: `The product ${product.name} has been updated succesfully`,
+          showConfirmButton: true
+        });
+      })
+    }
   }
 
   getPictures() {

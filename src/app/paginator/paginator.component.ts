@@ -7,6 +7,7 @@ import { Component, OnInit, Input, OnChanges } from '@angular/core';
 export class PaginatorComponent implements OnInit, OnChanges {
 
   @Input() paginator: any;
+  @Input() idCategory: number;
   pages: number[];
   since: number;
   until: number;

@@ -1,0 +1,49 @@
+<div class="card border-primary mt-3">
+    <div class="card-header"><h5 class="card-title">{{categoryName}}</h5></div>
+
+    <div class="card-body text-primary">
+        <div class="my-2 text-left">
+            <button class="btn btn-primary btn-rounded mt-1" type="button" [routerLink]="['/products/new/', idCategory]">New product</button>
+        </div>
+
+        <div *ngIf="products?.length > 0">
+            <table class="table table-bordered table-striped">
+                <thead>
+                    <tr class="text-center">
+                        <th>Picture</th>
+                        <th>Name</th>
+                        <th>Price</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let product of products">
+                        <td style="width: 100px;">
+                            <img *ngIf="product?.picture1" src="http://localhost:8080/api/image/{{product.picture1}}" class="img-thumbnail rounded" 
+                                alt="{{product.picture1}}">
+                            <img *ngIf="!product?.picture1" src="http://localhost:8080/images/no-picture.png" class="img-thumbnail rounded" 
+                                alt="Without picture">
+                        </td>
+    
+                        <td style="vertical-align: middle;"> <h5>{{product.name}}</h5> </td>
+                        <td style="vertical-align: middle;"> <h5>{{product.price | currency:'$ '}}</h5> </td>
+    
+                        <td class="text-center" style="width: 180px;">
+                            <button type="button" name="btnSeeProduct" class="btn btn-success" (click)="openModal(product)">
+                                <i class="fas fa-sign-in-alt"></i>
+                            </button>
+                            <button type="button" name="btnEditProduct" [routerLink]="['/products/edit/', product.idProduct]" class="btn btn-primary m-1">
+                                <i class="far fa-edit"></i>
+                            </button>
+                            <button type="button" name="btnDeleteProduct" class="btn btn-danger" (click)="deleteProduct(product)">
+                                <i class="far fa-trash-alt"></i>
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <paginator-nav *ngIf="paginator" [paginator]="paginator" [idCategory]="idCategory"></paginator-nav>
+    </div>
+</div>
+<product-detail *ngIf="selectedProduct" [product]="selectedProduct"></product-detail>

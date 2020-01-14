@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { Observable, throwError } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
@@ -12,12 +12,14 @@ import Swal from 'sweetalert2';
 })
 export class ProductService {
 
+  private httpHeaders: HttpHeaders = new HttpHeaders({'Content-Type': 'application/json'})
+
   constructor(
     private httpClient: HttpClient,
     private router: Router
   ) { }
 
-  getProducts(idCategory: number, page: number): Observable<Product[]> {
+  getProducts(idCategory: number, page: number): Observable<any> {
     return this.httpClient.get<Product[]>(environment.urlProducts +'/'+ idCategory +'/'+ page).pipe(
       map((response: any) => {
         response.content as Product[];
@@ -55,6 +57,26 @@ export class ProductService {
         return this.responseError(error);
       })
     );
+  }
+
+  updateProduct(product: Product): Observable<Product> {
+    let productDto: any = {
+      idProduct: +product.idProduct,
+      idCategory: +product.idCategory,
+      name: product.name,
+      description: product.description,
+      weight: +product.weight,
+      price: +product.price
+    }
+    return this.httpClient.put<Product>(environment.urlUpdateProduct, productDto, { headers: this.httpHeaders }).pipe(
+      catchError(error => {
+        return this.responseError(error);
+      })
+    );
+  }
+  
+  getExchangerate(): Observable<any> {
+    return this.httpClient.get(environment.urlCurrencyApi);
   }
 
   responseError(err): Observable<any> {

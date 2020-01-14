@@ -1,23 +1,49 @@
-<ul *ngIf="pages?.length > 0" class="pagination">
+<div *ngIf="!idCategory">
+    <ul *ngIf="pages?.length > 0" class="pagination">
+        <li [ngClass]="paginator.first ? 'disabled page-item' : 'page-item'">
+            <a class="page-link" [routerLink]="['/categories/page', 0]">First</a>
+        </li>
+    
+        <li class="page-item" *ngIf="paginator.number > 0">
+            <a class="page-link" [routerLink]="['/categories/page', paginator.number-1]">&laquo;</a>
+        </li>
+    
+        <li *ngFor="let page of pages" class="page-item" [ngClass]="(page-1 === paginator.number) ? 'active' : ''">
+            <span class="page-link" *ngIf="page-1 === paginator.number">{{page}}</span>
+            <a class="page-link" *ngIf="page-1 !== paginator.number" [routerLink]="['/categories/page', page-1]">{{ page }}</a>
+        </li>
+    
+        <li class="page-item" *ngIf="paginator.number < paginator.totalPages-1">
+            <a class="page-link" [routerLink]="['/categories/page', paginator.number+1]">&raquo;</a>
+        </li>
+    
+        <li [ngClass]="paginator.last ? 'disabled page-item' : 'page-item'">
+            <a class="page-link" [routerLink]="['/categories/page', paginator.totalPages-1]">Last</a>
+        </li>
+    </ul>
+</div>
 
-    <li [ngClass]="paginator.first ? 'disabled page-item' : 'page-item'">
-        <a class="page-link" [routerLink]="['/categories/page', 0]">First</a>
-    </li>
-
-    <li class="page-item" *ngIf="paginator.number > 0">
-        <a class="page-link" [routerLink]="['/categories/page', paginator.number-1]">&laquo;</a>
-    </li>
-
-    <li *ngFor="let page of pages" class="page-item" [ngClass]="(page-1 === paginator.number) ? 'active' : ''">
-        <span class="page-link" *ngIf="page-1 === paginator.number">{{page}}</span>
-        <a class="page-link" *ngIf="page-1 !== paginator.number" [routerLink]="['/categories/page', page-1]">{{ page }}</a>
-    </li>
-
-    <li class="page-item" *ngIf="paginator.number < paginator.totalPages-1">
-        <a class="page-link" [routerLink]="['/categories/page', paginator.number+1]">&raquo;</a>
-    </li>
-
-    <li [ngClass]="paginator.last ? 'disabled page-item' : 'page-item'">
-        <a class="page-link" [routerLink]="['/categories/page', paginator.totalPages-1]">Last</a>
-    </li>
-</ul>
+<div *ngIf="idCategory">
+    <ul *ngIf="pages?.length > 0" class="pagination">
+        <li [ngClass]="paginator.first ? 'disabled page-item' : 'page-item'">
+            <a class="page-link" [routerLink]="['/products/page', idCategory, 0]">First</a>
+        </li>
+    
+        <li class="page-item" *ngIf="paginator.number > 0">
+            <a class="page-link" [routerLink]="['/products/page', idCategory, paginator.number-1]">&laquo;</a>
+        </li>
+    
+        <li *ngFor="let page of pages" class="page-item" [ngClass]="(page-1 === paginator.number) ? 'active' : ''">
+            <span class="page-link" *ngIf="page-1 === paginator.number">{{page}}</span>
+            <a class="page-link" *ngIf="page-1 !== paginator.number" [routerLink]="['/products/page', idCategory, page-1]">{{ page }}</a>
+        </li>
+    
+        <li class="page-item" *ngIf="paginator.number < paginator.totalPages-1">
+            <a class="page-link" [routerLink]="['/products/page', idCategory, paginator.number+1]">&raquo;</a>
+        </li>
+    
+        <li [ngClass]="paginator.last ? 'disabled page-item' : 'page-item'">
+            <a class="page-link" [routerLink]="['/products/page', idCategory, paginator.totalPages-1]">Last</a>
+        </li>
+    </ul>
+</div>
